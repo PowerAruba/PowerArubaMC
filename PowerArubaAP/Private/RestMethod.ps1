@@ -29,7 +29,7 @@ function Invoke-ArubaAPRestMethod {
       Invoke-RestMethod with ArubaAP connection for post configuration/object uri with $body payloade
     #>
 
-    [CmdletBinding(DefaultParametersetname="default")]
+    [CmdletBinding(DefaultParametersetname = "default")]
     Param(
         [Parameter(Mandatory = $true, position = 1)]
         [String]$uri,
