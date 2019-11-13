@@ -54,7 +54,7 @@ function Connect-ArubaAP {
         [switch]$SkipCertificateCheck = $false,
         [Parameter(Mandatory = $false)]
         [ValidateRange(1, 65535)]
-        [int]$port=4343
+        [int]$port = 4343
     )
 
     Begin {
@@ -96,7 +96,7 @@ function Connect-ArubaAP {
             }
         }
 
-        $postParams = "username="+$Credentials.username+"&password="+$Credentials.GetNetworkCredential().Password
+        $postParams = "username=" + $Credentials.username + "&password=" + $Credentials.GetNetworkCredential().Password
         $url = "https://${Server}:${port}/v1/api/login"
         $headers = @{ Accept = "application/json"; "Content-type" = "application/json" }
 
