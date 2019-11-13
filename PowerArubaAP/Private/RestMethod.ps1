@@ -56,8 +56,8 @@ function Invoke-ArubaAPRestMethod {
             $fullurl += "?"
         }
 
-        if ($sid) {
-            $fullurl += "&uidaruba=$uidaruba"
+        if ($uidaruba) {
+            $fullurl += "&UIDARUBA=$uidaruba"
         }
 
         $sessionvariable = $DefaultArubaAPConnection.session
