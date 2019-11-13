@@ -25,14 +25,14 @@ function Show-ArubaAPException() {
             $result = $Exception.Exception.Response.GetResponseStream()
             $reader = New-Object System.IO.StreamReader($result)
             $responseBody = $reader.ReadToEnd()
-            $responseJson =  $responseBody | ConvertFrom-Json
+            $responseJson = $responseBody | ConvertFrom-Json
         }
 
         Write-Warning "The ArubaAP API sends an error message:"
         Write-Warning "Error description (code): $($Exception.Exception.Response.StatusDescription) ($($Exception.Exception.Response.StatusCode.Value__))"
         if ($responseBody) {
-            if ($responseJson.message) {
-                Write-Warning "Error details: $($responseJson.message)"
+            if ($responseJson._global_result) {
+                Write-Warning "Error details: $($responseJson._global_result.status_str)"
             }
             else {
                 Write-Warning "Error details: $($responseBody)"
