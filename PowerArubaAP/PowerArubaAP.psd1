@@ -9,7 +9,7 @@
 @{
 
 # Script module or binary module file associated with this manifest.
-# RootModule = ''
+RootModule = 'PowerArubaAP.psm1'
 
 # Version number of this module.
 ModuleVersion = '0.0.1'
@@ -24,7 +24,7 @@ GUID = 'e6173ad9-487b-4e22-b804-b10c95e97496'
 Author = 'Alexis La Goutte'
 
 # Company or vendor of this module
-CompanyName = 'Unknown'
+#CompanyName = 'Unknown'
 
 # Copyright statement for this module
 Copyright = '(c) Alexis La Goutte. All rights reserved.'
@@ -63,7 +63,7 @@ PowerShellVersion = '5.0'
 # TypesToProcess = @()
 
 # Format files (.ps1xml) to be loaded when importing this module
-FormatsToProcess = 'PowerArubaAP.Format.ps1xml'
+#FormatsToProcess = 'PowerArubaAP.Format.ps1xml'
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
 # NestedModules = @()
@@ -95,13 +95,13 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        # Tags = @()
+         Tags = @('Aruba', 'HPE', 'MC', 'MobilityController', 'AccessPoint', 'WiFi', 'PSEdition_Core','PSEdition_Desktop')
 
         # A URL to the license for this module.
-        # LicenseUri = ''
+         LicenseUri = 'https://github.com/PowerAruba/PowerArubaAP/blob/master/LICENSE'
 
         # A URL to the main website for this project.
-        # ProjectUri = ''
+         ProjectUri = 'https://github.com/PowerAruba/PowerArubaAP'
 
         # A URL to an icon representing this module.
         # IconUri = ''
