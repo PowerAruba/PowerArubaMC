@@ -45,6 +45,10 @@ function Invoke-ArubaAPRestMethod {
 
     Process {
 
+        if ($null -eq $DefaultArubaAPConnection) {
+            Throw "Not Connected. Connect to the Mobility Controller with Connect-ArubaAP"
+        }
+
         $Server = ${DefaultArubaAPConnection}.Server
         $headers = ${DefaultArubaAPConnection}.headers
         $invokeParams = ${DefaultArubaAPConnection}.invokeParams
