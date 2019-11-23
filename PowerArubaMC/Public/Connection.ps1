@@ -11,7 +11,7 @@ function Connect-ArubaAP {
       Connect to a Aruba Mobility Controller
 
       .DESCRIPTION
-      Connect to a Aruba Mobility Controllert
+      Connect to a Aruba Mobility Controller
 
       .EXAMPLE
       Connect-ArubaAP -Server 192.0.2.1
