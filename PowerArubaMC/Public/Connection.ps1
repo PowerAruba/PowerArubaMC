@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-function Connect-ArubaAP {
+function Connect-ArubaMC {
 
     <#
       .SYNOPSIS
@@ -14,29 +14,29 @@ function Connect-ArubaAP {
       Connect to a Aruba Mobility Controller
 
       .EXAMPLE
-      Connect-ArubaAP -Server 192.0.2.1
+      Connect-ArubaMC -Server 192.0.2.1
 
       Connect to a Aruba Mobility Controller with IP 192.0.2.1 using (Get-)credential
 
       .EXAMPLE
-      Connect-ArubaAP -Server 192.0.2.1 -SkipCertificateCheck
+      Connect-ArubaMC -Server 192.0.2.1 -SkipCertificateCheck
 
       Connect to an ArubaMobility Controller using HTTPS (without check certificate validation) with IP 192.0.2.1 using (Get-)credential
 
       .EXAMPLE
-      Connect-ArubaAP -Server 192.0.2.1 -port 4443
+      Connect-ArubaMC -Server 192.0.2.1 -port 4443
 
         Connect to an Aruba Mobility Controllerwith port 4443 with IP 192.0.2.1 using (Get-)credential
 
       .EXAMPLE
       $cred = get-credential
-      PS C:\>Connect-ArubaAP -Server 192.0.2.1 -credential $cred
+      PS C:\>Connect-ArubaMC -Server 192.0.2.1 -credential $cred
 
       Connect to a Aruba Mobility Controller with IP 192.0.2.1 and passing (Get-)credential
 
       .EXAMPLE
       $mysecpassword = ConvertTo-SecureString aruba -AsPlainText -Force
-      PS C:\>Connect-ArubaAP -Server 192.0.2.1 -Username admin -Password $mysecpassword
+      PS C:\>Connect-ArubaMC -Server 192.0.2.1 -Username admin -Password $mysecpassword
 
       Connect to a Aruba Mobility Controller with IP 192.0.2.1 using Username and Password
   #>
@@ -86,13 +86,13 @@ function Connect-ArubaAP {
             $invokeParams.remove("UseBasicParsing")
         }
 
-        #for PowerShell (<=) 5 (Desktop), Enable TLS 1.1, 1.2 and Disable SSL chain trust (needed/recommanded by ArubaAP)
+        #for PowerShell (<=) 5 (Desktop), Enable TLS 1.1, 1.2 and Disable SSL chain trust (needed/recommanded by ArubaMC)
         if ("Desktop" -eq $PSVersionTable.PsEdition) {
             #Enable TLS 1.1 and 1.2
-            Set-ArubaAPCipherSSL
+            Set-ArubaMCCipherSSL
             if ($SkipCertificateCheck) {
                 #Disable SSL chain trust...
-                Set-ArubaAPuntrustedSSL
+                Set-ArubaMCuntrustedSSL
             }
         }
 
@@ -101,10 +101,10 @@ function Connect-ArubaAP {
         $headers = @{ Accept = "application/json"; "Content-type" = "application/json" }
 
         try {
-            $response = Invoke-RestMethod $url -Method POST -Body $postParams -SessionVariable arubaap -headers $headers @invokeParams
+            $response = Invoke-RestMethod $url -Method POST -Body $postParams -SessionVariable arubamc -headers $headers @invokeParams
         }
         catch {
-            Show-ArubaAPException $_
+            Show-ArubaMCException $_
             throw "Unable to connect"
         }
 
@@ -114,11 +114,11 @@ function Connect-ArubaAP {
         }
 
         $connection.server = $server
-        $connection.session = $arubaap
+        $connection.session = $arubamc
         $connection.invokeParams = $invokeParams
         $connection.uidaruba = $response._global_result.uidaruba
 
-        set-variable -name DefaultArubaAPConnection -value $connection -scope Global
+        set-variable -name DefaultArubaMCConnection -value $connection -scope Global
 
         $connection
     }
@@ -127,7 +127,7 @@ function Connect-ArubaAP {
     }
 }
 
-function Disconnect-ArubaAP {
+function Disconnect-ArubaMC {
 
     <#
         .SYNOPSIS
@@ -137,12 +137,12 @@ function Disconnect-ArubaAP {
         Disconnect the connection on Aruba Mobility Controller
 
         .EXAMPLE
-        Disconnect-ArubaAP
+        Disconnect-ArubaMC
 
         Disconnect the connection
 
         .EXAMPLE
-        Disconnect-ArubaAP -noconfirm
+        Disconnect-ArubaMC -noconfirm
 
         Disconnect the connection with no confirmation
 
@@ -172,10 +172,10 @@ function Disconnect-ArubaAP {
         else { $decision = 0 }
         if ($decision -eq 0) {
             Write-Progress -activity "Remove Aruba Mobility Controller connection"
-            Invoke-ArubaAPRestMethod -method "Get" -uri $url | Out-Null
+            Invoke-ArubaMCRestMethod -method "Get" -uri $url | Out-Null
             Write-Progress -activity "Remove Aruba Mobility Controller connection" -completed
-            if (Get-Variable -Name DefaultArubaAPConnection -scope global) {
-                Remove-Variable -name DefaultArubaAPConnection -scope global
+            if (Get-Variable -Name DefaultArubaMCConnection -scope global) {
+                Remove-Variable -name DefaultArubaMCConnection -scope global
             }
         }
 

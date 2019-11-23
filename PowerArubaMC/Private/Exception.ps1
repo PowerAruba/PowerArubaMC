@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-function Show-ArubaAPException() {
+function Show-ArubaMCException() {
     Param(
         [parameter(Mandatory = $true)]
         $Exception
@@ -15,7 +15,7 @@ function Show-ArubaAPException() {
         $exceptiontype = $Exception.Exception.InnerException.GetType()
         if ("AuthenticationException" -eq $exceptiontype.name) {
             Write-Warning "Invalid certificat (Untrusted, wrong date, invalid name...)"
-            Write-Warning "Try to use Connect-ArubaAP -SkipCertificateCheck for connection"
+            Write-Warning "Try to use Connect-ArubaMC -SkipCertificateCheck for connection"
             throw "Unable to connect (certificate)"
         }
     }
@@ -28,7 +28,7 @@ function Show-ArubaAPException() {
             $responseJson = $responseBody | ConvertFrom-Json
         }
 
-        Write-Warning "The ArubaAP API sends an error message:"
+        Write-Warning "The ArubaMC API sends an error message:"
         Write-Warning "Error description (code): $($Exception.Exception.Response.StatusDescription) ($($Exception.Exception.Response.StatusCode.Value__))"
         if ($responseBody) {
             if ($responseJson._global_result) {

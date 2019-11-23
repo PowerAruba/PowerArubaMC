@@ -4,29 +4,29 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-function Invoke-ArubaAPRestMethod {
+function Invoke-ArubaMCRestMethod {
 
     <#
       .SYNOPSIS
-      Invoke RestMethod with ArubaAP connection (internal) variable
+      Invoke RestMethod with ArubaMC connection (internal) variable
 
       .DESCRIPTION
-      Invoke RestMethod with ArubaAP connection variable (uidaruba...)
+      Invoke RestMethod with ArubaMC connection variable (uidaruba...)
 
       .EXAMPLE
-      Invoke-ArubaAPRestMethod -method "get" -uri "configuration/object"
+      Invoke-ArubaMCRestMethod -method "get" -uri "configuration/object"
 
-      Invoke-RestMethod with ArubaAP connection for get configuration/object
-
-      .EXAMPLE
-      Invoke-ArubaAPRestMethod "configuration/objectp"
-
-      Invoke-RestMethod with ArubaAP connection for get configuration/object uri with default GET method parameter
+      Invoke-RestMethod with ArubaMC connection for get configuration/object
 
       .EXAMPLE
-      Invoke-ArubaAPRestMethod -method "post" -uri "configuration/object" -body $body
+      Invoke-ArubaMCRestMethod "configuration/objectp"
 
-      Invoke-RestMethod with ArubaAP connection for post configuration/object uri with $body payloade
+      Invoke-RestMethod with ArubaMC connection for get configuration/object uri with default GET method parameter
+
+      .EXAMPLE
+      Invoke-ArubaMCRestMethod -method "post" -uri "configuration/object" -body $body
+
+      Invoke-RestMethod with ArubaMC connection for post configuration/object uri with $body payloade
     #>
 
     [CmdletBinding(DefaultParametersetname = "default")]
@@ -45,15 +45,15 @@ function Invoke-ArubaAPRestMethod {
 
     Process {
 
-        if ($null -eq $DefaultArubaAPConnection) {
-            Throw "Not Connected. Connect to the Mobility Controller with Connect-ArubaAP"
+        if ($null -eq $DefaultArubaMCConnection) {
+            Throw "Not Connected. Connect to the Mobility Controller with Connect-ArubaMC"
         }
 
-        $Server = ${DefaultArubaAPConnection}.Server
-        $headers = ${DefaultArubaAPConnection}.headers
-        $invokeParams = ${DefaultArubaAPConnection}.invokeParams
-        $uidaruba = ${DefaultArubaAPConnection}.uidaruba
-        $port = ${DefaultArubaAPConnection}.port
+        $Server = ${DefaultArubaMCConnection}.Server
+        $headers = ${DefaultArubaMCConnection}.headers
+        $invokeParams = ${DefaultArubaMCConnection}.invokeParams
+        $uidaruba = ${DefaultArubaMCConnection}.uidaruba
+        $port = ${DefaultArubaMCConnection}.port
 
         $fullurl = "https://${Server}:${port}/${uri}"
         if ($fullurl -NotMatch "\?") {
@@ -64,7 +64,7 @@ function Invoke-ArubaAPRestMethod {
             $fullurl += "&UIDARUBA=$uidaruba"
         }
 
-        $sessionvariable = $DefaultArubaAPConnection.session
+        $sessionvariable = $DefaultArubaMCConnection.session
         try {
             if ($body) {
                 $response = Invoke-RestMethod $fullurl -Method $method -body ($body | ConvertTo-Json) -Headers $headers -WebSession $sessionvariable @invokeParams
@@ -75,8 +75,8 @@ function Invoke-ArubaAPRestMethod {
         }
 
         catch {
-            Show-ArubaAPException $_
-            throw "Unable to use ArubaAP API"
+            Show-ArubaMCException $_
+            throw "Unable to use ArubaMC API"
         }
         $response
 
