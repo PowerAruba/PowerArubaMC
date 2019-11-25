@@ -59,31 +59,41 @@ if you get a warning about `Unable to connect` Look [Issue](#Issue)
 
 ### Show command
 
-You can display some command... (CLi to API)
+You can display some command... (CLI to API)
 
 ```powershell
 # Display AP Database (show ap database)
     Get-ArubaMCShowCmd "show ap database"
 
 
-    Status               : Success
-    Status-code          : 0
-    CLI Command executed : show clients
-
-    IAP IP address       : 10.44.55.230
-    Command output       : cli output:
-
-                        COMMAND=show clients
-
-                        Client List
-                        -----------
-                        Name  IP Address  MAC Address  OS  ESSID  Access Point  Channel  Type  Role  IPv6 Address  Signal  Speed (mbps)
-                        ----  ----------  -----------  --  -----  ------------  -------  ----  ----  ------------  ------  ------------
-                        Number of Clients   :0
-                        Info timestamp      :1522412
+AP Database
+-----------
+{@{AP Type=305; Flags=; Group=default; IP Address=10.44.5.81; Name=Test; Standby IP=0.0.0.0; Status=Down; Switch IP=...
 
 
+#Display the value
+    (Get-ArubaMCShowCmd "show ap database")."Ap Database"
 
+
+AP Type    : 305
+Flags      :
+Group      : default
+IP Address : 10.44.5.81
+Name       : Test
+Standby IP : 0.0.0.0
+Status     : Down
+Switch IP  : 10.200.5.111
+
+#Display the meta
+    (Get-ArubaMCShowCmd "show ap database")._meta
+Name
+Group
+AP Type
+IP Address
+Status
+Flags
+Switch IP
+Standby IP
 
 
 ```
