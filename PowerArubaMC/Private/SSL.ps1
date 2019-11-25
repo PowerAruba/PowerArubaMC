@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-Function Set-ArubaMCuntrustedSSL {
+Function Set-ArubaMCUntrustedSSL {
 
   # Hack for allowing untrusted SSL certs with https connexions
   Add-Type -TypeDefinition @"
