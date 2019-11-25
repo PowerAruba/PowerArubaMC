@@ -77,8 +77,6 @@ function Connect-ArubaMC {
         if ("Desktop" -eq $PSVersionTable.PsEdition) {
             #Remove -SkipCertificateCheck from Invoke Parameter (not supported <= PS 5)
             $invokeParams.remove("SkipCertificateCheck")
-            #Enable UseUnsafeParsingHeader for fix protocol violation when use PS5 (See Bug #2)
-            Set-UseUnsafeHeaderParsing -Enable
         }
         else {
             #Core Edition
